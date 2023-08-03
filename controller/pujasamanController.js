@@ -1,19 +1,17 @@
 import pujaSamanModel from "../model/pujsamanModel.js";
 
 const createPujasaman = async (req, res) => {
- 
+
   const { name, quantity, price, image } = req.body;
   if (name && quantity && price && image) {
     try {
       const pujasamanCreate = await pujaSamanModel.create({
-        name,
-        quantity,
-        price,
-        image,
+        ...req.body
       });
 
       res.send({
-        status: "added",
+        status: 200,
+        message: "Puja Samagri added successfully"
       });
     } catch (error) {
       console.log(error.message);
@@ -37,12 +35,12 @@ const showPujasaman = async (req, res) => {
 };
 
 const editPujasaman = async (req, res) => {
- 
+
   try {
     const pujasamanEdit = await pujaSamanModel.findById(req.params.id);
     res.send(pujasamanEdit);
 
-    
+
   } catch (error) {
     console.log(error.message);
   }
@@ -54,10 +52,10 @@ const updatePujasaman = async (req, res) => {
       { _id: req.params.id },
       { $set: req.body }
     );
-      res.send({
-        status: "update",
-        
-      });
+    res.send({
+      status: "update",
+
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -66,10 +64,10 @@ const updatePujasaman = async (req, res) => {
 const deletePujasaman = async (req, res) => {
   try {
     const pujasamanDelete = await pujaSamanModel.findByIdAndDelete(req.params.id);
-    
-     res.send({
-       status: "delete",
-     });
+
+    res.send({
+      status: "delete",
+    });
   } catch (error) {
     console.log(error.message);
   }
@@ -78,11 +76,11 @@ const deletePujasaman = async (req, res) => {
 
 
 export {
-  
+
   createPujasaman,
   showPujasaman,
   editPujasaman,
   updatePujasaman,
   deletePujasaman,
-  
+
 };
