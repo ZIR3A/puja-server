@@ -1,0 +1,41 @@
+<%- include ('../partials/html.ejs') -%>
+    <div class="container mx-auto mt-4">
+        <div class="row">
+           
+                 <% data.forEach((item)=>{ %> 
+                    <div class="col-md-4">
+                <div class="card" style="width: 20rem;">
+                    <img src="https://c8.alamy.com/comp/2GBYPKC/trending-new-hindu-god-lakshmi-fine-painting-arts-2GBYPKC.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-title"> <%= item.name %></h6>
+                        
+                        <p class="card-text"> make up the bulk of the card's content.</p>
+                        
+                    </div>
+                      <div>
+                        <form class= "d-inline" action="/jyotish/edit/<%= item._id %>" method="get">
+                            <button type="submit" class="btn"> <i class="fas fa-pen-square text-info"></i></button>
+                       </form>
+                        <form action="/jyotish/delete/<%= item._id %>" method="post">
+                           
+                            <button type="submit" class="btn"> <i class="fas fa-trash text-danger"> </i></button>
+                        
+                        </form>
+                        </div>
+                      </div>
+                </div>
+                <% })    %>
+
+                
+         <script>
+            //let data = JSON.parse('<%- JSON.stringify('token') %>')
+            localStorage.setItem("data", JSON.stringify(token))
+        </script>
+
+                
+            
+           
+         </div>
+    </div>
+
+    <%- include ('../partials/footer.ejs') -%>
