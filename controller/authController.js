@@ -1,8 +1,8 @@
-import adminModel from "../model/adminModel.js";
 import bcrypt from "bcryptjs";
 import { createAccessToken, createRefreshToken } from "../utils/generateToken.js";
 import { createAdminValidator } from "../utils/admin.validation.js";
 import userModel from "../model/user.model.js";
+import jwt from "jsonwebtoken";
 
 export const login = async (req, res) => {
     try {
@@ -39,7 +39,7 @@ export const createUser = async (req, res) => {
 
         const salt = await bcrypt.genSalt(10);
         const hashPassword = await bcrypt.hash(password, salt);
-        const admin = await userModel.create({
+        const user = await userModel.create({
             name,
             email,
             password: hashPassword,
@@ -47,15 +47,15 @@ export const createUser = async (req, res) => {
         });
         // Create token
         const token = jwt.sign(
-            { user_id: admin._id, email },
+            { user_id: user._id, email },
             process.env.ACCESS_TOKEN_SECRET_KEY,
             {
                 expiresIn: "5h",
             }
         );
         // save user token
-        admin.token = token;
-        await admin.save();
+        user.token = token;
+        await user.save();
         res.status(200).send({ message: "Successfully Registered, Please Login now" });
     } catch (error) {
         res.status(500).send({ error: "Something went wrong" })
